@@ -6,7 +6,7 @@ import {
 } from "framer-motion";
 import list from "./ToolkitList";
 import Text from "../HeroSection/Text";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const breakLine = (text) => {
   const arr = text.split(" ");
@@ -32,14 +32,12 @@ const slider = {
     opacity: 0,
   }),
   animate: {
-    zIndex: 1,
     x: 0,
     opacity: 1,
   },
   exit: (direction) => ({
     x: direction ? "50vw" : "-50vw",
     opacity: 0,
-    zIndex: 0,
   }),
 };
 
@@ -63,8 +61,16 @@ const ToolkitSmartphone = ({ swipePower }) => {
   const x = useMotionValue(0);
   const textOpacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
   const { title, text, img, id } = list[index];
-  const swipeConfidenceThreshold = 200;
+  const swipeConfidenceThreshold = 500;
   let swipe;
+
+  useEffect(() => {
+    let slider = setInterval(() => {
+      changeRight();
+    }, 10000);
+    return () => clearInterval(slider);
+  }, [index]);
+
   return (
     <div className="sm:px-6 py-5 px-4 h-[100vh] relative overflow-hidden">
       <div className="pb-5">
@@ -85,6 +91,11 @@ const ToolkitSmartphone = ({ swipePower }) => {
       <AnimatePresence initial="false" custom={direction}>
         <motion.div key={title} className="absolute">
           <motion.div
+            dragConstraints={{ top: 0, bottom: 0 }}
+            drag="x"
+            dragPropagation
+            dragElastic={0.2}
+            dragSnapToOrigin="true"
             variants={slider}
             exit="exit"
             animate="animate"
@@ -101,7 +112,8 @@ const ToolkitSmartphone = ({ swipePower }) => {
             <motion.img
               style={{ x }}
               drag="x"
-              dragElastic={1}
+              dragElastic={0.2}
+              dragSnapToOrigin="true"
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={(e, { offset, velocity }) => {
                 swipe = swipePower(offset.x, velocity.x);

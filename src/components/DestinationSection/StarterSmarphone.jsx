@@ -22,19 +22,7 @@ const swipePower = (offset, velocity) => {
   return Math.abs(offset) * velocity;
 };
 
-function StarterSmartphone({ selected, setSelected }) {
-  const [direction, setDirection] = useState(true);
-  const { id, img } = list[selected];
-  const swipeConfidenceThreshold = 500;
-  let swipe;
-
-  useEffect(() => {
-    let slider = setInterval(() => {
-      changeRight();
-    }, 100000);
-    return () => clearInterval(slider);
-  }, [selected]);
-
+function StarterSmartphone({ selected, setSelected, direction, setDirection }) {
   const changeRight = () => {
     setDirection(true);
     const newIndex = selected + 1;
@@ -44,10 +32,23 @@ function StarterSmartphone({ selected, setSelected }) {
 
   const changeLeft = () => {
     setDirection(false);
+
     const newIndex = selected - 1;
     if (newIndex < 1) setSelected(list.length - 1);
     else setSelected(newIndex);
   };
+
+  const { id, img } = list[selected];
+  const swipeConfidenceThreshold = 500;
+  let swipe;
+
+  useEffect(() => {
+    console.log(direction);
+    let slider = setInterval(() => {
+      changeRight();
+    }, 10000);
+    return () => clearInterval(slider);
+  }, [selected]);
 
   return (
     <motion.div className="w-full pt-6 flex items-center justify-center h-full relative pb-6">
@@ -56,6 +57,8 @@ function StarterSmartphone({ selected, setSelected }) {
           dragConstraints={{ top: 0, bottom: 0 }}
           drag="x"
           dragPropagation
+          dragElastic={0.2}
+          dragSnapToOrigin="true"
           className="max-w-xs  "
           variants={slider}
           exit="exit"
@@ -69,15 +72,19 @@ function StarterSmartphone({ selected, setSelected }) {
           }}>
           <motion.img
             drag="x"
-            dragElastic={0}
+            dragElastic={0.2}
+            dragSnapToOrigin="true"
+            custom={direction}
             dragConstraints={{ top: 0, bottom: 0 }}
             onDragEnd={(e, { offset, velocity }) => {
               swipe = swipePower(offset.x, velocity.x);
 
               if (swipe < -swipeConfidenceThreshold) {
                 changeLeft();
+                console.log("LEFT: " + swipe);
               } else if (swipe > swipeConfidenceThreshold) {
                 changeRight();
+                console.log("Right: " + swipe);
               }
             }}
             src={img}

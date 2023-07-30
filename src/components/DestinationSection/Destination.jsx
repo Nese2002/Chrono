@@ -9,6 +9,7 @@ const Destination = ({ isLast, setLast }) => {
   const [width, setWidth] = useState(innerWidth);
   const [height, setHeight] = useState(innerHeight);
   const [selected, setSelected] = useState(2);
+  const [direction, setDirection] = useState(true);
 
   window.addEventListener("resize", () => {
     setWidth(innerWidth);
@@ -36,7 +37,7 @@ const Destination = ({ isLast, setLast }) => {
     },
     exit: () => ({
       scale: 1.5,
-      opacity: 0,
+      opacity: 0.6,
     }),
   };
 
@@ -125,6 +126,8 @@ const Destination = ({ isLast, setLast }) => {
               </p>
             </div>
             <StarterSmartphone
+              direction={direction}
+              setDirection={setDirection}
               selected={selected}
               setSelected={setSelected}></StarterSmartphone>
             <div className="flex relative items-center justify-center space-x-4">
