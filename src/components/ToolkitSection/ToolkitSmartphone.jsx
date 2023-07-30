@@ -17,7 +17,7 @@ const breakLine = (text) => {
         return (
           <Text
             key={item}
-            duration={500}
+            duration={250}
             text={item}
             clas=" self-start text-white font-saira text-3xl sm:text-4xl [text-shadow:_4px_3px_0_rgb(0_0_0_/_100%)]"></Text>
         );
@@ -28,7 +28,7 @@ const breakLine = (text) => {
 
 const slider = {
   initial: (direction) => ({
-    x: direction ? "-100vw" : "100vw",
+    x: direction ? "-50vw" : "50vw",
     opacity: 0,
   }),
   animate: {
@@ -37,7 +37,7 @@ const slider = {
     opacity: 1,
   },
   exit: (direction) => ({
-    x: direction ? "100vw" : "-100vw",
+    x: direction ? "50vw" : "-50vw",
     opacity: 0,
     zIndex: 0,
   }),
@@ -61,9 +61,9 @@ const ToolkitSmartphone = ({ swipePower }) => {
   const [direction, setDirection] = useState(true);
   const [index, setIndex] = useState(0);
   const x = useMotionValue(0);
-  const textOpacity = useTransform(x, [-250, 0, 250], [0, 1, 0]);
+  const textOpacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
   const { title, text, img, id } = list[index];
-  const swipeConfidenceThreshold = 10000;
+  const swipeConfidenceThreshold = 200;
   let swipe;
   return (
     <div className="sm:px-6 py-5 px-4 h-[100vh] relative overflow-hidden">

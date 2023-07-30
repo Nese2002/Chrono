@@ -10,7 +10,7 @@ export default {
         backHero: "url('/src/assets/HeroSection/Background.webp')",
         backToolkit: "url('/src/assets/ToolkitSection/BackToolkit.webp')",
         backHeroSmartphone:
-          "url('/src/assets/HeroSection/BackgroundSmartphone.png')",
+          "url('/src/assets/HeroSection/BackgroundSmartphone.webp')",
         backEgypt: "url('/src/assets/DestinationSection/EgyptLandscape.webp')",
         backRoma: "url('/src/assets/DestinationSection/RomanLandscape.webp')",
         backMiddleage:
